@@ -142,6 +142,7 @@ public class Presentr: NSObject {
      - parameter completion:   Completion block.
      */
     fileprivate func presentViewController(presentingViewController presentingVC: UIViewController, presentedViewController presentedVC: UIViewController, animated: Bool, completion: (() -> Void)?) {
+        presentedVC.view.clipsToBounds = true
         presentedVC.transitioningDelegate = self
         presentedVC.modalPresentationStyle = .custom
         presentingVC.present(presentedVC, animated: animated, completion: completion)
