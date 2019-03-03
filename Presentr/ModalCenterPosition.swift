@@ -21,7 +21,7 @@ public enum ModalCenterPosition {
 
     case center
     case topCenter
-    case bottomCenter
+    case bottomCenter, lowerBottomCenter
     case custom(centerPoint: CGPoint)
     case customOrigin(origin: CGPoint)
 
@@ -43,6 +43,9 @@ public enum ModalCenterPosition {
         case .bottomCenter:
             return CGPoint(x: containerFrame.origin.x + (containerFrame.width / 2),
                            y: containerFrame.origin.y + (containerFrame.height * (3 / 4)))
+        case .lowerBottomCenter:
+            return CGPoint(x: containerFrame.origin.x + (containerFrame.width / 2),
+                           y: containerFrame.origin.y + (containerFrame.height * (5 / 6)))
         case .custom(let point):
             return point
         case .customOrigin(_):
