@@ -25,9 +25,17 @@ public enum KeyboardTranslationType {
      */
     public func getTranslationFrame(keyboardFrame: CGRect, presentedFrame: CGRect) -> CGRect {
         let keyboardTop = UIScreen.main.bounds.height - keyboardFrame.size.height
+        var safeAreaMargin:CGFloat = 0
+        if #available(iOS 11.0, *) {
+            let window = UIWindow(frame: UIScreen.main.bounds)
+            
+            if window.safeAreaInsets != UIEdgeInsets.zero {
+                safeAreaMargin = window.safeAreaInsets.top/2
+            }
+        }
         let buffer: CGFloat = (presentedFrame.origin.y + presentedFrame.size.height == UIScreen.main.bounds.height) ? 0 : 20.0 // add a 20 pt buffer except when the presentedFrame is stick to bottom
         let presentedViewBottom = presentedFrame.origin.y + presentedFrame.height + buffer
-        let offset = presentedViewBottom - keyboardTop
+        let offset = presentedViewBottom - keyboardTop + safeAreaMargin
         switch self {
         case .moveUp:
             if offset > 0.0 {
@@ -38,8 +46,8 @@ public enum KeyboardTranslationType {
         case .compress:
             if offset > 0.0 {
                 let y = max(presentedFrame.origin.y-offset, 20.0)
-                let newHeight = y != 20.0 ? presentedFrame.size.height : keyboardTop - 40.0
-                let frame = CGRect(x: presentedFrame.origin.x, y: y, width: presentedFrame.size.width, height: newHeight)
+                let newHeight = y != 20.0 ? presentedFrame.size.height : keyboardTop - 40.0 - safeAreaMargin
+                let frame = CGRect(x: presentedFrame.origin.x, y: y + safeAreaMargin, width: presentedFrame.size.width, height: newHeight)
                 return frame
             }
             return presentedFrame
