@@ -480,7 +480,9 @@ extension PresentrController {
             let presentedFrame = frameOfPresentedViewInContainerView
             let translatedFrame = keyboardTranslationType.getTranslationFrame(keyboardFrame: keyboardFrame, presentedFrame: presentedFrame)
             if translatedFrame != presentedFrame {
-                UIView.animate(withDuration: notification.keyboardAnimationDuration() ?? 0.5, animations: {
+                var dur = notification.keyboardAnimationDuration() ?? 0.5
+                if dur == 0 { dur = 0.15 }
+                UIView.animate(withDuration: dur, animations: {
                     self.presentedView?.frame = translatedFrame
                 })
             }
